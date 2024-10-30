@@ -11,6 +11,18 @@ List<Dog> dogs = new List<Dog>
     new Dog { Id = 4, Name = "Max", WalkerId = null, CityId = 1 },
     new Dog { Id = 5, Name = "Luna", WalkerId = null, CityId = 2 }
 };
+List<City> cities = new List<City>
+{
+    new City { Id = 1, Name = "New York" },
+    new City { Id = 2, Name = "Los Angeles" },
+    new City { Id = 3, Name = "Chicago" }
+};
+
+List<Walker> walkers = new List<Walker>
+{
+    new Walker { Id = 1, Name = "John Doe" },
+    new Walker { Id = 2, Name = "Jane Smith" }
+};
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -37,6 +49,35 @@ app.MapGet("/api/dogs", () =>
     });
 });
 
+app.MapGet("/api/dogs/{id}", (int id) => 
+{
+    Dog dog = dogs.FirstOrDefault(dog => dog.Id == id);
+    City city = cities.FirstOrDefault(city => city.Id == dog.CityId);
+    Walker walker = walkers.FirstOrDefault(walker => walker.Id == dog.WalkerId);
+    if (dog != null)
+    {
+        return Results.Ok(new DogDTO
+        {
+            Id = dog.Id,
+            Name = dog.Name,
+            WalkerId = dog.WalkerId,
+            Walker = walker == null ? null : new WalkerDTO
+            {
+                Id = walker.Id,
+                Name = walker.Name
+            },
+            CityId = dog.CityId,
+            City = new CityDTO
+            {
+                Id = city.Id,
+                Name = city.Name
+            }
+        });
+    }else
+    {
+        return Results.NotFound();
+    }
+});
 
 
 
