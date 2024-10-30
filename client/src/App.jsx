@@ -8,11 +8,12 @@ function App() {
   return (
     <div className="App">
       <>
-        <Navbar color="light" expand="md">
-          <Nav navbar>
+        <Navbar className="navbar" color="light" expand="md">
+          <Nav navbar className="navbar">
             <NavbarBrand href="/">🐕‍🦺 🐩 DeShawn's Dog Walking</NavbarBrand>
-            <NavItem>
+            <NavItem className="d-flex">
               <NavLink href="/walkers">Walkers</NavLink>
+              <NavLink href="/">All Dogs</NavLink>
             </NavItem>
           </Nav>
         </Navbar>
