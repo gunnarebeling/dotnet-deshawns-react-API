@@ -10,3 +10,13 @@ export const deleteDog = (id) => {
         method: "DELETE"
     })
 }
+
+export const postDog = (dog) => {
+    return fetch("api/dogs", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dog)
+    }).then(res => res.json())
+}

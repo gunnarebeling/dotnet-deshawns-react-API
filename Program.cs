@@ -85,6 +85,29 @@ app.MapDelete("api/dogs/{id}", (int id) =>
     dogs.RemoveAt(index);
 });
 
+app.MapGet("api/cities", () =>
+{
+    return cities.Select(city => new CityDTO
+    {
+        Id = city.Id,
+        Name = city.Name,
+
+    });
+});
+
+app.MapPost("api/dogs", (Dog dog) => {
+    dog.Id = dogs.Any() ? dogs.Max(dog => dog.Id) + 1 : 1;
+    dogs.Add(dog);
+    return Results.Created($"api/dogs/{dog.Id}",new DogDTO
+    {
+        Id = dog.Id,
+        Name = dog.Name,
+        CityId = dog.CityId,
+        WalkerId = dog.WalkerId
+    });
+
+});
+
 
 
 
