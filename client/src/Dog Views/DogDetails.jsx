@@ -13,9 +13,14 @@ export const DogDetails = () => {
 
     return (
         <div>
-            <h3>Name: {dog.name}</h3>
-            <h3>Walker: {dog.walker == null ? "no walker" : dog.walker?.name}</h3>
-            <h3>City: {dog.city?.name}</h3>
+            <div>
+                <h3></h3>
+            </div>
+            <div id="dog-details">
+                <h3>{dog.name}'s doggy details</h3>
+                <h4>Walker: {dog.walker == null ? "no walker" : dog.walker?.name}</h4>
+                <h4>City: {dog.city?.name}</h4>
+            </div>
 
         </div>
     )

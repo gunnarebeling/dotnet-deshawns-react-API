@@ -79,6 +79,12 @@ app.MapGet("/api/dogs/{id}", (int id) =>
     }
 });
 
+app.MapDelete("api/dogs/{id}", (int id) => 
+{
+    int index = dogs.FindIndex(dog => dog.Id == id);
+    dogs.RemoveAt(index);
+});
+
 
 
 
