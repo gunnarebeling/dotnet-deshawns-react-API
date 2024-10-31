@@ -151,6 +151,13 @@ app.MapGet("api/walkercity", () =>
     });
 });
 
+app.MapDelete("api/walkers/{id}", (int id) => 
+{
+    walkers.RemoveAll(w => w.Id == id);
+    walkerCities.RemoveAll(wc => wc.WalkerId == id);
+    
+});
+
 
 
 

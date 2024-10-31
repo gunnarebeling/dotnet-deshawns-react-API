@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getAllWalkers } from "../Services/walkersServices"
+import { DeleteWalker, getAllWalkers } from "../Services/walkersServices"
 import { getCities } from "../Services/cityServices"
 import { getALLWalkerCity } from "../Services/walkerCityService"
 
@@ -9,6 +9,7 @@ export const AllWalkers = () => {
     const [selectedCity, setSelectedCity] = useState(0)
     const [walkerCity, setWalkerCity] = useState([])
     const [filteredWalkers, setFilteredWalkers] = useState([])
+    const [deletedWalker, setDeletedWalker] =useState(false);
 
     useEffect(() => {
         getAllWalkers().then(res => {
@@ -16,7 +17,7 @@ export const AllWalkers = () => {
         })
         getCities().then(res => setAllCities(res))
         getALLWalkerCity().then(res => setWalkerCity(res))
-    }, [])
+    }, [deletedWalker])
 
     useEffect(() => {
         let cityWalker = []
@@ -31,6 +32,13 @@ export const AllWalkers = () => {
         }
         setFilteredWalkers(cityWalker)
     }, [selectedCity, allWalkers])
+
+    const handleDelete = (event) => {
+        const id = event.target.dataset.id
+        DeleteWalker(parseInt(id)).then(() => {
+            setDeletedWalker(res => !res)
+        })
+    }
     return (
         <div>
             <div className="m-4" >
@@ -60,8 +68,11 @@ export const AllWalkers = () => {
                 {filteredWalkers.map(walker => {
 
                     return (
-                    <div key={walker.id} className="d-flex border rounded mx-5 my-3">
+                    <div key={walker.id} className="d-flex border justify-content-between align-items-center rounded mx-5 my-3">
                         <h4 className="m-3">{walker.name}</h4>
+                        <div className="m-3">
+                            <button data-id={walker.id} className="btn btn-warning" onClick={handleDelete} >Remove</button>
+                        </div>
                     </div>
                     )
                 })}
