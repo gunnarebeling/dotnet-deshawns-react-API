@@ -25,6 +25,9 @@ export const AllDogs = () => {
             setDeletedDog(d => !d)
         })
     }
+    const addDogClick = () => {
+        navigate("adddog")
+    }
     return(
         <div>
             <div>
@@ -40,6 +43,9 @@ export const AllDogs = () => {
                 )})}
 
             </ul>
+            <div>
+                <button className="btn btn-primary" onClick={addDogClick} >Add Dog</button>
+            </div>
         </div>
     )
 }
