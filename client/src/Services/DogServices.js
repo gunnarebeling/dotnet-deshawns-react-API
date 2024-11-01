@@ -20,3 +20,13 @@ export const postDog = (dog) => {
         body: JSON.stringify(dog)
     }).then(res => res.json())
 }
+
+export const updateDog = ( id, dog) => {
+    return fetch(`/api/dogs/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dog)
+    })
+}

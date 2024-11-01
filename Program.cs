@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using DeshawnsDogs.Models;
 using DeshawnsDogs.Models.DTOs;
 var builder = WebApplication.CreateBuilder(args);
@@ -46,9 +47,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/api/dogs", () => 
+app.MapGet("/api/dogs", (int? cityId) => 
 {
-    return dogs.Select(dog => new DogDTO
+    List<Dog> filteredList = dogs.ToList();
+    if (cityId != null)
+    {
+        filteredList = dogs.Where(dog => dog.CityId == cityId && dog.WalkerId == null).ToList();
+    }
+    return filteredList.Select(dog => new DogDTO
     {
         Id = dog.Id,
         Name = dog.Name,
@@ -85,6 +91,20 @@ app.MapGet("/api/dogs/{id}", (int id) =>
     {
         return Results.NotFound();
     }
+});
+
+app.MapPut("api/dogs/{id}", (int id, Dog dog) => 
+{
+    Dog updatedDog = dogs.FirstOrDefault(dog => dog.Id == id);
+    updatedDog.WalkerId = dog.WalkerId;
+    
+    return  Results.Ok(new DogDTO
+    {
+        Id = updatedDog.Id,
+        Name = updatedDog.Name,
+        WalkerId = updatedDog.WalkerId,
+        CityId = updatedDog.CityId
+    });
 });
 
 app.MapDelete("api/dogs/{id}", (int id) => 
@@ -124,10 +144,14 @@ app.MapGet("api/walkers", () =>
         Name = walker.Name
     });
 });
-app.MapGet("api/walkercity", () => 
+app.MapGet("api/walkercity", (int? walkerId) => 
 {   
-
-    return walkerCities.Select(wc => {
+    List <WalkerCity> filteredList = walkerCities.ToList();
+    if (walkerId != null)
+    {
+        filteredList = walkerCities.Where(wc => wc.WalkerId == walkerId).ToList();
+    }
+    return filteredList.Select(wc => {
         Walker walker = walkers.FirstOrDefault(w => w.Id == wc.WalkerId);
         City city = cities.FirstOrDefault(c => c.Id == wc.CityId);
         return (

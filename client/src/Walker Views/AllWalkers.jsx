@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { DeleteWalker, getAllWalkers } from "../Services/walkersServices"
 import { getCities } from "../Services/cityServices"
 import { getALLWalkerCity } from "../Services/walkerCityService"
+import { useNavigate } from "react-router-dom"
 
 export const AllWalkers = () => {
     const [allWalkers, setAllWalkers] = useState([])
@@ -10,6 +11,7 @@ export const AllWalkers = () => {
     const [walkerCity, setWalkerCity] = useState([])
     const [filteredWalkers, setFilteredWalkers] = useState([])
     const [deletedWalker, setDeletedWalker] =useState(false);
+    const navigate = useNavigate()
 
     useEffect(() => {
         getAllWalkers().then(res => {
@@ -38,6 +40,11 @@ export const AllWalkers = () => {
         DeleteWalker(parseInt(id)).then(() => {
             setDeletedWalker(res => !res)
         })
+    }
+
+    const handleAddDog = (event) => {
+        const id = event.target.dataset.id
+        navigate(`/walkers/${id}/dogchoice`)
     }
     return (
         <div>
@@ -71,6 +78,7 @@ export const AllWalkers = () => {
                     <div key={walker.id} className="d-flex border justify-content-between align-items-center rounded mx-5 my-3">
                         <h4 className="m-3">{walker.name}</h4>
                         <div className="m-3">
+                            <button className="btn btn-primary" data-id={walker.id} onClick={handleAddDog} >Add Dog</button>
                             <button data-id={walker.id} className="btn btn-warning" onClick={handleDelete} >Remove</button>
                         </div>
                     </div>
