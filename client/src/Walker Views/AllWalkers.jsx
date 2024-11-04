@@ -46,6 +46,12 @@ export const AllWalkers = () => {
         const id = event.target.dataset.id
         navigate(`/walkers/${id}/dogchoice`)
     }
+    const handleNameClick = (event) => {
+        event.preventDefault()
+        const id = event.target.dataset.id
+        navigate(`/walkers/${id}/cities`)
+
+    }
     return (
         <div>
             <div className="m-4" >
@@ -76,7 +82,7 @@ export const AllWalkers = () => {
 
                     return (
                     <div key={walker.id} className="d-flex border justify-content-between align-items-center rounded mx-5 my-3">
-                        <h4 className="m-3">{walker.name}</h4>
+                        <h4 className="m-3" data-id={walker.id} onClick={handleNameClick} >{walker.name}</h4>
                         <div className="m-3">
                             <button className="btn btn-primary" data-id={walker.id} onClick={handleAddDog} >Add Dog</button>
                             <button data-id={walker.id} className="btn btn-warning" onClick={handleDelete} >Remove</button>
