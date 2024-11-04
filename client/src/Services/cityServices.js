@@ -1,3 +1,3 @@
 export const getCities = () => {
-    return fetch("api/cities").then(res => res.json())
+    return fetch("/api/cities").then(res => res.json())
 }

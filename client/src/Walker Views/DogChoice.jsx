@@ -17,6 +17,7 @@ export const DogChoice = () => {
     useEffect(() => {
         getAllDogs().then(dogs => {
             const filtereddogs = dogs.filter(dog => walkerCities.some(wc => wc.cityId == dog.cityId && dog.walkerId == null))
+            
             setAvailableDogs(filtereddogs)
         })
     }, [walkerCities])
