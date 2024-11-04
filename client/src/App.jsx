@@ -14,6 +14,7 @@ function App() {
             <NavItem className="d-flex">
               <NavLink href="/walkers">Walkers</NavLink>
               <NavLink href="/">All Dogs</NavLink>
+              <NavLink href="/cities">Cities</NavLink>
             </NavItem>
           </Nav>
         </Navbar>
